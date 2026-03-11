@@ -1,0 +1,4 @@
+node_modules/
+
+# Build output — run `pnpm build` to regenerate
+dist/

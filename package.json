@@ -1,0 +1,28 @@
+{
+  "name": "detab",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "vite build && cp manifest.json dist/",
+    "watch": "vite build --watch",
+    "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json,html}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamanidev/detab.git"
+  },
+  "keywords": [],
+  "author": "Mohamed Yamani (yamanidev)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yamanidev/detab/issues"
+  },
+  "homepage": "https://github.com/yamanidev/detab#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/chrome": "^0.1.37",
+    "@types/node": "^25.4.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
