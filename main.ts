@@ -5,15 +5,6 @@ interface Platform {
 
 type Groups = Record<string, chrome.tabs.Tab[]>;
 
-const SYSTEM_PREFIXES = [
-  "chrome://",
-  "chrome-extension://",
-  "moz-extension://",
-  "about:",
-  "edge://",
-  "brave://",
-];
-
 const ARTICLE_PATH_RE = /\/(blogs?|articles?|posts?|news|stories?)(\/|$)/i;
 
 function matchesDomain(hostname: string, domain: string): boolean {
@@ -80,15 +71,14 @@ const CATEGORY_ORDER = [
 ];
 
 function classify(tab: chrome.tabs.Tab): string | null {
-  const raw = tab.url ?? "";
-  if (!raw || SYSTEM_PREFIXES.some((p) => raw.startsWith(p))) return null;
-
   let url: URL;
   try {
-    url = new URL(raw);
+    url = new URL(tab.url ?? "");
   } catch {
     return null;
   }
+
+  if (url.protocol !== "http:" && url.protocol !== "https:") return null;
 
   for (const platform of PLATFORMS) {
     if (platform.test(url)) return platform.name;
