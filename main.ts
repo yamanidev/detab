@@ -166,6 +166,23 @@ function renderGroups(groups: Groups): void {
   }
 }
 
+const BROWSERS: { name: string; test: (ua: string) => boolean }[] = [
+  { name: "brave", test: () => "brave" in navigator },
+  { name: "arc", test: (ua) => ua.includes("Arc/") },
+  { name: "vivaldi", test: (ua) => ua.includes("Vivaldi/") },
+  { name: "edge", test: (ua) => ua.includes("Edg/") },
+  { name: "opera", test: (ua) => ua.includes("OPR/") || ua.includes("Opera/") },
+  { name: "firefox", test: (ua) => ua.includes("Firefox/") },
+  { name: "safari", test: (ua) => ua.includes("Safari/") && !ua.includes("Chrome/") },
+  { name: "chrome", test: (ua) => ua.includes("Chrome/") },
+];
+
+function getBrowserName(): string {
+  const ua = navigator.userAgent;
+
+  return BROWSERS.find(({ test }) => test(ua))?.name ?? "browser";
+}
+
 async function init(): Promise<void> {
   const tabs = await chrome.tabs.query({});
   const groups = groupTabs(tabs);
@@ -176,8 +193,12 @@ async function init(): Promise<void> {
 
   document.getElementById("export-button")!.addEventListener("click", () => {
     const md = toMarkdown(groups);
-    const date = new Date().toISOString().slice(0, 10);
-    download(md, `tabs-${date}.md`);
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const time = `${pad(now.getHours())}-${pad(now.getMinutes())}`;
+    const browser = getBrowserName();
+    download(md, `tabs-${browser}-${date}-${time}.md`);
 
     const closeTabs = (document.getElementById("close-tabs") as HTMLInputElement).checked;
     if (closeTabs) {
