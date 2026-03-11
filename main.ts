@@ -115,8 +115,23 @@ function toMarkdown(groups: Groups): string {
     lines.push(`## ${category}`);
 
     for (const tab of groups[category]) {
-      const title = (tab.title ?? tab.url ?? "Untitled").replace(/[[\]]/g, "\\$&");
-      lines.push(`- [${title}](${tab.url})`);
+      let title: string;
+      let suffix = "";
+
+      if (tab.discarded) {
+        try {
+          const parsed = new URL(tab.url ?? "");
+          const path = parsed.pathname === "/" ? "" : parsed.pathname;
+          title = parsed.hostname + path;
+        } catch {
+          title = tab.url ?? "Untitled";
+        }
+        suffix = " *(title unavailable — the browser discarded it from memory)*";
+      } else {
+        title = tab.title ?? tab.url ?? "Untitled";
+      }
+
+      lines.push(`- [${title.replace(/[[\]]/g, "\\$&")}](${tab.url})${suffix}`);
     }
 
     lines.push("");
