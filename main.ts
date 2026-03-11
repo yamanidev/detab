@@ -173,6 +173,16 @@ async function init(): Promise<void> {
     const md = toMarkdown(groups);
     const date = new Date().toISOString().slice(0, 10);
     download(md, `tabs-${date}.md`);
+
+    const closeTabs = (document.getElementById("close-tabs") as HTMLInputElement).checked;
+    if (closeTabs) {
+      const ids = Object.values(groups)
+        .flat()
+        .map((tab) => tab.id)
+        .filter((id): id is number => id !== undefined);
+
+      chrome.tabs.remove(ids);
+    }
   });
 }
 
