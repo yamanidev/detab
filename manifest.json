@@ -3,9 +3,7 @@
   "name": "Detab",
   "version": "1.0.0",
   "description": "Archive all open tabs into a Markdown file in one click.",
-  "permissions": [
-    "tabs"
-  ],
+  "permissions": ["tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Detab — Archive your tabs"
