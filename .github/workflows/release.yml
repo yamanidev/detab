@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify version consistency
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PACKAGE_VERSION=$(node -e "console.log(require('./package.json').version)")
+          CHROME_MANIFEST_VERSION=$(node -e "console.log(require('./manifest.json').version)")
+          FIREFOX_MANIFEST_VERSION=$(node -e "console.log(require('./manifest.firefox.json').version)")
+
+          echo "Tag:                  $TAG_VERSION"
+          echo "package.json:         $PACKAGE_VERSION"
+          echo "manifest.json:        $CHROME_MANIFEST_VERSION"
+          echo "manifest.firefox.json $FIREFOX_MANIFEST_VERSION"
+
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ] || \
+             [ "$TAG_VERSION" != "$CHROME_MANIFEST_VERSION" ] || \
+             [ "$TAG_VERSION" != "$FIREFOX_MANIFEST_VERSION" ]; then
+            echo "::error::Version mismatch: tag=$TAG_VERSION package=$PACKAGE_VERSION chrome=$CHROME_MANIFEST_VERSION firefox=$FIREFOX_MANIFEST_VERSION"
+            exit 1
+          fi
+
+      - name: Build Chrome
+        run: pnpm build
+
+      - name: Build Firefox
+        run: pnpm build:firefox
+
+      - name: Create ZIPs
+        run: |
+          zip -r detab-chrome-extension.zip dist/chrome
+          zip -r detab-firefox-extension.zip dist/firefox
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "detab-chrome-extension.zip" \
+            "detab-firefox-extension.zip" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
