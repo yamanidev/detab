@@ -6,6 +6,7 @@
     "build:firefox": "BROWSER=firefox vite build",
     "watch": "vite build --watch",
     "watch:firefox": "BROWSER=firefox vite build --watch",
+    "version": "node -e \"['manifest.json','manifest.firefox.json'].forEach(f=>{const m=JSON.parse(require('fs').readFileSync(f));m.version=require('./package.json').version;require('fs').writeFileSync(f,JSON.stringify(m,null,2)+'\\n')})\" && git add manifest.json manifest.firefox.json",
     "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json,html}\""
   },
   "repository": {
