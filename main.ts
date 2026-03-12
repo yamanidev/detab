@@ -53,6 +53,20 @@ const PLATFORMS: Platform[] = [
       (matchesDomain(url.hostname, "startpage.com") && url.pathname.includes("/search")) ||
       (matchesDomain(url.hostname, "yandex.com") && url.pathname.startsWith("/search")),
   },
+  {
+    name: "AI Chats",
+    test: (url) =>
+      matchesDomain(url.hostname, "chatgpt.com") ||
+      matchesDomain(url.hostname, "claude.ai") ||
+      matchesDomain(url.hostname, "gemini.google.com") ||
+      matchesDomain(url.hostname, "copilot.microsoft.com") ||
+      matchesDomain(url.hostname, "grok.com") ||
+      matchesDomain(url.hostname, "deepseek.com") ||
+      matchesDomain(url.hostname, "poe.com") ||
+      matchesDomain(url.hostname, "character.ai") ||
+      matchesDomain(url.hostname, "mistral.ai") ||
+      matchesDomain(url.hostname, "huggingface.co"),
+  },
   { name: "Articles", test: (url) => ARTICLE_PATH_RE.test(url.pathname) },
 ];
 
@@ -66,6 +80,7 @@ const CATEGORY_ORDER = [
   "Hacker News",
   "Email",
   "Search",
+  "AI Chats",
   "Articles",
   "Other",
 ];
