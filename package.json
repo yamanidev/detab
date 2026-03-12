@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "build": "vite build",
+    "build:firefox": "BROWSER=firefox vite build",
     "watch": "vite build --watch",
+    "watch:firefox": "BROWSER=firefox vite build --watch",
     "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json,html}\""
   },
   "repository": {

@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import { copyFileSync } from "fs";
 
+const browser = process.env.BROWSER ?? "chrome";
+
 export default defineConfig({
   base: "",
   publicDir: false,
@@ -8,12 +10,13 @@ export default defineConfig({
     {
       name: "copy-manifest",
       closeBundle() {
-        copyFileSync("manifest.json", "dist/manifest.json");
+        const src = browser === "firefox" ? "manifest.firefox.json" : "manifest.json";
+        copyFileSync(src, `dist/${browser}/manifest.json`);
       },
     },
   ],
   build: {
-    outDir: "dist",
+    outDir: `dist/${browser}`,
     emptyOutDir: true,
     rollupOptions: {
       input: {
