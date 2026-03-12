@@ -64,8 +64,7 @@ const PLATFORMS: Platform[] = [
       matchesDomain(url.hostname, "deepseek.com") ||
       matchesDomain(url.hostname, "poe.com") ||
       matchesDomain(url.hostname, "character.ai") ||
-      matchesDomain(url.hostname, "mistral.ai") ||
-      matchesDomain(url.hostname, "huggingface.co"),
+      matchesDomain(url.hostname, "mistral.ai"),
   },
   { name: "Articles", test: (url) => ARTICLE_PATH_RE.test(url.pathname) },
 ];
