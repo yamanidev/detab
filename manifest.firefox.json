@@ -1,9 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Detab",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Archive all open tabs into a Markdown file in one click.",
-  "permissions": ["tabs"],
+  "permissions": [
+    "tabs"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Detab — Archive your tabs"
