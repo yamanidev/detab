@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Detab",
+  "version": "0.1.0",
+  "description": "Archive all open tabs into a Markdown file in one click.",
+  "permissions": ["tabs"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Detab — Archive your tabs"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "detab@yamanidev",
+      "strict_min_version": "109.0"
+    }
+  }
+}
