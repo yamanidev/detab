@@ -180,6 +180,19 @@ function renderGroups(groups: Groups): void {
   }
 }
 
+const OS: { name: string; test: (ua: string) => boolean }[] = [
+  { name: "android", test: (ua) => ua.includes("Android") },
+  { name: "ios", test: (ua) => /iPad|iPhone|iPod/.test(ua) },
+  { name: "windows", test: (ua) => ua.includes("Windows") },
+  { name: "macos", test: (ua) => ua.includes("Macintosh") },
+  { name: "linux", test: (ua) => ua.includes("Linux") },
+];
+
+function getOSName(): string {
+  const ua = navigator.userAgent;
+  return OS.find(({ test }) => test(ua))?.name ?? "unknown";
+}
+
 const BROWSERS: { name: string; test: (ua: string) => boolean }[] = [
   { name: "brave", test: () => "brave" in navigator },
   { name: "arc", test: (ua) => ua.includes("Arc/") },
@@ -212,7 +225,8 @@ async function init(): Promise<void> {
     const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
     const time = `${pad(now.getHours())}-${pad(now.getMinutes())}`;
     const browser = getBrowserName();
-    download(md, `tabs-${browser}-${date}-${time}.md`);
+    const os = getOSName();
+    download(md, `tabs-${browser}-${os}-${date}-${time}.md`);
 
     const closeTabs = (document.getElementById("close-tabs") as HTMLInputElement).checked;
     if (closeTabs) {
