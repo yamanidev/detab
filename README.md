@@ -28,7 +28,7 @@ A clean Markdown file with every tab saved as `[Title](URL)`, grouped by platfor
 - [The Unreasonable Effectiveness of Just Shipping](https://...)
 ```
 
-The file is named with your browser and a timestamp, e.g. `tabs-chrome-2025-06-01-14-30.md`.
+The file is named with your browser, OS, and a timestamp, e.g. `tabs-chrome-windows-2025-06-01-14-30.md`.
 
 ## Installation
 
