@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/icons/icon-128.png" width="64" alt="Detab logo" />
+</p>
+
 ## About
 
 Archive your open tabs to Markdown and clear your browser in one click.

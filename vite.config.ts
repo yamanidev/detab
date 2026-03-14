@@ -5,7 +5,7 @@ const browser = process.env.BROWSER ?? "chrome";
 
 export default defineConfig({
   base: "",
-  publicDir: false,
+  publicDir: "public",
   plugins: [
     {
       name: "copy-manifest",
